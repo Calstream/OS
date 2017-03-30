@@ -1,0 +1,11 @@
+gcc -pthread -o compiledname source.c -lm
+pthread - для потоков
+lm - для math.h
+
+ПОТОКИ:
+
+
+МЬЮТЕКСЫ:
+
+
+НЕИМЕНОВАННЫЕ КАНАЛЫ:
