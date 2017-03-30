@@ -1,0 +1,63 @@
+gcc -pthread -o compiledname source.c -lm
+pthread - для потоков
+lm - для math.h
+
+ПОТОКИ:
+
+_________________________________________________________
+МЬЮТЕКСЫ:
+Мьютексы гарантируют, что любой поток получает монопольный доступ
+к блоку памяти, и тем самым обеспечивают целостность данных. 
+У мьютекса 2 состояния: свободное и занятое. Чтобы защитить 
+участок памяти, каждый случай доступа к нему оборачивается в мьютекс.
+WINAPI:
+
+HANDLE WINAPI CreateMutex(
+_In_opt_ LPSECURITY_ATTRIBUTES lpMutexAttributes,
+_In_ BOOL bInitialOwner,
+_In_opt_ LPCTSTR lpctszName
+);
+
+HANDLE mutex = CreateMutex(NULL, FALSE, NULL); //объявление и инициализация
+
+DWORD WINAPI WaitForSingleObject( // захват
+  _In_ HANDLE hHandle,
+  _In_ DWORD  dwMilliseconds
+);
+
+WaitForSingleObject(mutex, INFINITE);
+
+BOOL WINAPI ReleaseMutex( //освобождение
+_In_ HANDLE hMutex
+);
+ReleaseMutex(mutex);
+
+CloseHandle(mutex); //уничтожение
+
+POSIX:
+int pthread_mutex_init(
+pthread_mutex_t *restrict pMutex,
+const pthread_mutexattr_t *restrict pAttr);
+
+pthread_mutex_t mutex; //объявление
+pthread_mutex_init(mutex, NULL); //инициализация
+
+int pthread_mutex_destroy( //уничтожение
+pthread_mutex_t * pMutex);
+
+int pthread_mutex_lock( //захват
+pthread_mutex_t * pMutex);
+Захватывает указанный мьютекс. Если блокировка недос-
+тупна, процесс переводится в состояние ожидани
+
+int pthread_mutex_trylock(
+pthread_mutex_t * pMutex);
+Пытается захватить указанный мьютекс. Если мьютекс ус-
+пешно захвачен, возвращается значение 1, в противном
+случае возвращается нуль
+
+int pthread_mutex_unlock( //освобождение
+pthread_mutex_t * pMutex);
+
+________________________________________________________
+НЕИМЕНОВАННЫЕ КАНАЛЫ:
